@@ -37,6 +37,7 @@ class ConfigurationTest extends FileSystemTestCase
         $this->assertSame([], $configuration->getFilesWithContents());
         $this->assertEquals([new SymfonyPatcher()], $configuration->getPatchers());
         $this->assertFalse($configuration->getWhitelist()->isNamespaceWhitelistInverted());
+        $this->assertNull($configuration->getOutputDir());
     }
 
     public function test_it_cannot_create_a_configuration_with_an_invalid_key(): void
@@ -79,6 +80,7 @@ return [
     'whitelist-global-functions' => false,
     'whitelist' => ['Foo', 'Bar\*'],
     'inverse-namespaces-whitelist' => true
+    'output-dir' => 'foo/bar'
 ];
 PHP
         );
@@ -95,5 +97,6 @@ PHP
         $this->assertSame([], $configuration->getFilesWithContents());
         $this->assertEquals([new SymfonyPatcher()], $configuration->getPatchers());
         $this->assertTrue($configuration->getWhitelist()->isNamespaceWhitelistInverted());
+        $this->assertEquals('foo/bar', $configuration->getOutputDir());
     }
 }
