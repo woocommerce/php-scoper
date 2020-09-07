@@ -396,6 +396,8 @@ final class AddPrefixCommand extends BaseCommand
 
             return true;
         }
+
+        return true;
     }
 
     private function retrieveConfig(InputInterface $input, OutputInterface $output, OutputStyle $io): Configuration
