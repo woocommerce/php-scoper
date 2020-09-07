@@ -141,8 +141,7 @@ final class Configuration
 
         if (false === array_key_exists(self::OUTPUT_DIR_KEYWORD, $config)) {
             $outputDir = null;
-        }
-        else {
+        } else {
             $outputDir = $config[ self::OUTPUT_DIR_KEYWORD ];
         }
 
