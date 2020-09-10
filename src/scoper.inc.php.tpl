@@ -8,6 +8,10 @@ return [
     // The base output directory for the prefixed files.
     // This will be overriden by the 'output-dir' command line option if present.
     'output-dir' => null,
+   
+    // Behavior when the output directory already exists. Allowed values are
+    // 'ask' (default), 'overwrite' and 'abort'.
+    'on-existing-output-dir' => 'ask',
 
     // The prefix configuration. If a non null value will be used, a random prefix will be generated.
     'prefix' => null,

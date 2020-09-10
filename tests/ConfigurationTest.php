@@ -73,6 +73,7 @@ PHP
 <?php
 
 return [
+    'on-existing-output-dir' => 'overwrite',
     'prefix' => 'MyPrefix',
     'files-whitelist' => ['file1', 'file2'],
     'whitelist-global-constants' => false,
@@ -93,6 +94,7 @@ PHP
         $expectedWhitelist->setNamespaceWhitelistIsInverted(true);
         $this->assertEquals($expectedWhitelist, $configuration->getWhitelist());
         $this->assertSame($this->tmp.DIRECTORY_SEPARATOR.'scoper.inc.php', $configuration->getPath());
+        $this->assertSame('overwrite', $configuration->getOnExistingOutputDir());
         $this->assertSame('MyPrefix', $configuration->getPrefix());
         $this->assertSame([], $configuration->getFilesWithContents());
         $this->assertEquals([new SymfonyPatcher()], $configuration->getPatchers());
