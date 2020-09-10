@@ -217,9 +217,9 @@ final class AddPrefixCommand extends BaseCommand
         }
 
         foreach($whitelistedFiles as $filePath) {
-	        $outputFilePath = $output.str_replace($commonPath, '', $filePath);
-	        $this->fileSystem->copy($filePath, $outputFilePath, true);
-	        $logger->outputSuccess($filePath, false);
+            $outputFilePath = $output.str_replace($commonPath, '', $filePath);
+            $this->fileSystem->copy($filePath, $outputFilePath, true);
+            $logger->outputSuccess($filePath, false);
         }
 
         $vendorDirs = array_keys($vendorDirs);
@@ -328,7 +328,7 @@ final class AddPrefixCommand extends BaseCommand
         $input->setOption(self::OUTPUT_DIR_OPT, $outputDir);
 
         if (false === $this->fileSystem->exists($outputDir)) {
-            return true;
+            return;
         }
 
         if (false === is_writable($outputDir)) {
@@ -349,7 +349,7 @@ final class AddPrefixCommand extends BaseCommand
         if ('overwrite' === $onExistingOutputDirBehavior) {
             $this->fileSystem->remove($outputDir);
 
-            return true;
+            return;
         }
 
         if ('abort' === $onExistingOutputDirBehavior) {
@@ -374,7 +374,7 @@ final class AddPrefixCommand extends BaseCommand
             );
 
             if (false === $canDeleteFile) {
-                return false;
+                return;
             }
 
             $this->fileSystem->remove($outputDir);
@@ -389,15 +389,13 @@ final class AddPrefixCommand extends BaseCommand
             );
 
             if (false === $canDeleteFile) {
-                return false;
+                return;
             }
 
             $this->fileSystem->remove($outputDir);
 
             return true;
         }
-
-        return true;
     }
 
     private function retrieveConfig(InputInterface $input, OutputInterface $output, OutputStyle $io): Configuration
