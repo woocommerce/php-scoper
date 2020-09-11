@@ -328,7 +328,7 @@ final class AddPrefixCommand extends BaseCommand
         $input->setOption(self::OUTPUT_DIR_OPT, $outputDir);
 
         if (false === $this->fileSystem->exists($outputDir)) {
-            return;
+            return true;
         }
 
         if (false === is_writable($outputDir)) {
@@ -349,7 +349,7 @@ final class AddPrefixCommand extends BaseCommand
         if ('overwrite' === $onExistingOutputDirBehavior) {
             $this->fileSystem->remove($outputDir);
 
-            return;
+            return true;
         }
 
         if ('abort' === $onExistingOutputDirBehavior) {
@@ -374,7 +374,7 @@ final class AddPrefixCommand extends BaseCommand
             );
 
             if (false === $canDeleteFile) {
-                return;
+                return false;
             }
 
             $this->fileSystem->remove($outputDir);
@@ -389,13 +389,13 @@ final class AddPrefixCommand extends BaseCommand
             );
 
             if (false === $canDeleteFile) {
-                return;
+                return false;
             }
 
             $this->fileSystem->remove($outputDir);
-
-            return true;
         }
+
+        return true;
     }
 
     private function retrieveConfig(InputInterface $input, OutputInterface $output, OutputStyle $io): Configuration
