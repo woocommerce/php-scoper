@@ -47,6 +47,7 @@ final class AddPrefixCommand extends BaseCommand
     private $fileSystem;
     private $scoper;
     private $init = false;
+    private $io;
 
     /**
      * @inheritdoc
@@ -122,11 +123,10 @@ final class AddPrefixCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $this->io = $io;
         $io->writeln('');
 
         $this->changeWorkingDirectory($input);
-
-        $config = $this->retrieveConfig($input, $output, $io);
 
         $this->validatePrefix($input);
         $this->validatePaths($input);
@@ -148,8 +148,8 @@ final class AddPrefixCommand extends BaseCommand
             $input->getArgument(self::PATH_ARG)
         );
 
-        $io->writeln("Output directory: <comment>$output</comment>");
-        $io->writeln('');
+        $cwd = getcwd();
+        $io->writeln("Input directory:  <comment>$cwd</comment>");
 
         try {
             $this->scopeFiles(
@@ -190,6 +190,10 @@ final class AddPrefixCommand extends BaseCommand
     ): void {
         // Creates output directory if does not already exist
         $this->fileSystem->mkdir($output);
+
+        $realOutput = realpath($output);
+        $this->io->writeln("Output directory: <comment>$realOutput</comment>");
+        $this->io->writeln('');
 
         $logger->outputFileCount(count($filesWithContents) + count($whitelistedFiles));
 

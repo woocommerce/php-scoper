@@ -33,6 +33,7 @@ class ScoperLogger
     private $progressBar;
     private $prefixedFilesCount;
     private $totalProcessedFilesCount;
+    private $erroredFilesCount;
 
     public function __construct(SymfonyApplication $application, SymfonyStyle $io)
     {
@@ -50,6 +51,7 @@ class ScoperLogger
     {
         $this->prefixedFilesCount       = 0;
         $this->totalProcessedFilesCount = 0;
+        $this->erroredFilesCount        = 0;
 
         $this->io->writeln($this->application->getHelp());
 
@@ -142,7 +144,7 @@ class ScoperLogger
             );
         }
 
-        $this->prefixedFilesCount++;
+        $this->erroredFilesCount++;
 
         $this->progressBar->advance();
     }
@@ -178,6 +180,15 @@ class ScoperLogger
             }
 
             $this->io->success($message);
+
+            if($this->erroredFilesCount != 0) {
+                $message = sprintf(
+                    'Failed to process %d files.',
+                    $this->erroredFilesCount
+                );
+
+                $this->io->warning($message);
+            }
         }
 
         if ($this->io->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
